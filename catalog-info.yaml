@@ -1,0 +1,41 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "obs-stack"
+  description: This is a basic example application
+  tags:
+    - observability-stack
+    - prometheus
+    - grafana
+    - monitoring
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-label-selector: 'entity-id=obs-stack'
+    backstage.io/kubernetes-namespace: default
+    argocd/app-name: "obs-stack"
+  links:
+    - url: https://github.com/${{parameters.repoUrl | parseRepoUrl.owner}}/${{parameters.repoUrl | parseRepoUrl.repo}}
+      title: Repo URL
+      icon: github
+    - url: https://grafana.obs-stack.eci-idp.click
+      title: Grafana URL
+      icon: dashboard
+spec:
+  owner: teachers
+  lifecycle: experimental
+  type: service
+  system: "obs-stack"
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: "obs-stack"
+  description: An example system for demonstration purposes
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  owner: teachers
+  lifecycle: experimental
+  type: service
+  stackType: observability-stack
