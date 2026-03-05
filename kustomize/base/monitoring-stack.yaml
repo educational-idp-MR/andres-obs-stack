@@ -387,15 +387,20 @@ data:
         pipeline_stages:
           - cri: {}
           - multiline:
-              firstline: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\s+(TRACE|DEBUG|INFO|WARN|ERROR)'
-              max_wait_time: 500ms
+              firstline: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\s+(TRACE|DEBUG|INFO|WARN|ERROR)\s'
+              max_wait_time: 100ms
+          - regex:
+              expression: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\s+(?P<level>TRACE|DEBUG|INFO|WARN|ERROR)'
+          - labels:
+              level:
         relabel_configs:
           # Guardar namespace
           - source_labels:
               - __meta_kubernetes_pod_node_name
             target_label: __host__
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
+          - action: replace
+            source_labels: [__meta_kubernetes_pod_label_app]
+            target_label: app
           - action: replace
             replacement: $1
             separator: /
