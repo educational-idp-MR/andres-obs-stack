@@ -395,7 +395,7 @@ data:
     
           - labels:
               level:
-              service
+              service:
     
         relabel_configs:
           - source_labels:
